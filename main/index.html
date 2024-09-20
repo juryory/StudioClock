@@ -58,17 +58,23 @@
         target.setHours(15, 0, 0, 0);
 
         function updateClock() {
-            // 获取当前时间
+            // 获取当前时间并去掉毫秒部分
             const now = new Date();
+            now.setMilliseconds(0); // 将毫秒部分设为0
+
+            // 显示当前时间
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            
-            // 显示当前时间
             document.getElementById('currentTime').textContent = `${hours}:${minutes}:${seconds}`;
 
             // 计算距离目标时间的剩余时间，取绝对值
             let remainingTime = Math.abs(target - now);
+
+            // if (remainingTime < 0) {
+            //     // 如果目标时间已经过了，设置剩余时间为 0
+            //     remainingTime = 0;
+            // }
 
             const remainingHours = String(Math.floor(remainingTime / (1000 * 60 * 60))).padStart(2, '0');
             const remainingMinutes = String(Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
