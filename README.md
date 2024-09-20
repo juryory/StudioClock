@@ -1,5 +1,9 @@
 # StudioClock
-演播室时钟
+## 效果展示
+
+演播室时钟，[点击查看效果](https://studioclock.juryory.com)
+
+## 界面详解
 
 ![Snipaste_2024-09-20_23-13-23](image/Snipaste_2024-09-20_23-13-23.png)
 
