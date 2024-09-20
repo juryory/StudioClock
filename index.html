@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时钟页面</title>
+    <style>
+        body {
+            background-color: black; /* 背景颜色为黑色 */
+            color: white; /* 字体颜色为白色 */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh; /* 让 body 高度占满整个屏幕 */
+            display: flex; /* 使用 flexbox 布局 */
+            flex-direction: column; /* 垂直方向布局 */
+            justify-content: center; /* 垂直居中 */
+            align-items: center; /* 水平居中 */
+        }
+        .clock, .countdown {
+            font-weight: bold; /* 字体加粗 */
+        }
+        .clock {
+            font-size: 200px;
+            margin-bottom: 20px;
+        }
+        .countdown {
+            font-size: 200px;
+            color: red;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .controls input {
+            padding: 5px;
+            font-size: 16px;
+        }
+        .controls button {
+            padding: 5px 10px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clock" id="currentTime">--:--:--</div>
+    <div class="countdown" id="countdownTime">--:--:--</div>
+
+    <!-- 设置倒计时目标时间的输入框和确认按钮 -->
+    <div class="controls">
+        <input type="time" id="targetTimeInput" value="15:00">
+        <button onclick="setTargetTime()">确认目标时间</button>
+    </div>
+
+    <script>
+        let target = new Date(); // 设置初始目标时间为 15:00:00
+        target.setHours(15, 0, 0, 0);
+
+        function updateClock() {
+            // 获取当前时间
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // 显示当前时间
+            document.getElementById('currentTime').textContent = `${hours}:${minutes}:${seconds}`;
+
+            // 计算距离目标时间的剩余时间，取绝对值
+            let remainingTime = Math.abs(target - now);
+
+            const remainingHours = String(Math.floor(remainingTime / (1000 * 60 * 60))).padStart(2, '0');
+            const remainingMinutes = String(Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            const remainingSeconds = String(Math.floor((remainingTime % (1000 * 60)) / 1000)).padStart(2, '0');
+
+            // 显示剩余时间
+            document.getElementById('countdownTime').textContent = `${remainingHours}:${remainingMinutes}:${remainingSeconds}`;
+        }
+
+        // 设置新的目标时间
+        function setTargetTime() {
+            const input = document.getElementById('targetTimeInput').value;
+            const [hours, minutes] = input.split(':');
+            target = new Date(); // 获取当前日期
+            target.setHours(parseInt(hours), parseInt(minutes), 0, 0); // 设置新的目标时间
+        }
+
+        // 每秒更新一次时钟
+        setInterval(updateClock, 1000);
+    </script>
+
+</body>
+</html>
